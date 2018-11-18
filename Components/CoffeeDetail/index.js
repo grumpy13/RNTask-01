@@ -20,6 +20,9 @@ import styles from "./styles";
 // List
 import coffeeshops from "../CoffeeList/list";
 
+//Redux
+import { connect } from "react-redux";
+
 class CoffeeDetail extends Component {
   constructor(props) {
     super(props);
@@ -96,4 +99,9 @@ class CoffeeDetail extends Component {
   }
 }
 
-export default CoffeeDetail;
+const mapStateToProps = state => ({});
+
+export default connect(
+  mapStateToProps,
+  null
+)(CoffeeDetail);

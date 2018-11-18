@@ -12,24 +12,10 @@ import {
   Icon
 } from "native-base";
 
+//Redux
+import { connect } from "react-redux";
+
 class CoffeeCart extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      list: [
-        {
-          drink: "Latte",
-          option: "Small",
-          quantity: 2
-        },
-        {
-          drink: "Espresso",
-          option: "Large",
-          quantity: 1
-        }
-      ]
-    };
-  }
   renderItem(item, index) {
     return (
       <ListItem key={index}>
@@ -52,7 +38,7 @@ class CoffeeCart extends Component {
   }
 
   render() {
-    const { list } = this.state;
+    const { list } = this.props;
     return (
       <List>
         {list.map((item, index) => this.renderItem(item, index))}
@@ -64,4 +50,11 @@ class CoffeeCart extends Component {
   }
 }
 
-export default CoffeeCart;
+const mapStateToProps = state => ({
+  list: state.cart.list
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(CoffeeCart);

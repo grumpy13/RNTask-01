@@ -16,8 +16,8 @@ import {
 // Style
 import styles from "./styles";
 
-// List
-import coffeeshops from "./list";
+//Redux
+import { connect } from "react-redux";
 
 class CoffeeList extends Component {
   handlePress() {
@@ -26,7 +26,10 @@ class CoffeeList extends Component {
   renderItem(shop) {
     return (
       <TouchableOpacity key={shop.id} onPress={() => this.handlePress(shop)}>
-        <ImageBackground source={shop.background} style={styles.background}>
+        <ImageBackground
+          source={{ uri: shop.background }}
+          style={styles.background}
+        >
           <View style={styles.overlay} />
           <ListItem style={styles.transparent}>
             <Card style={styles.transparent}>
@@ -34,7 +37,7 @@ class CoffeeList extends Component {
                 <Left>
                   <Thumbnail
                     bordered
-                    source={shop.img}
+                    source={{ uri: shop.img }}
                     style={styles.thumbnail}
                   />
                   <Text style={styles.text}>{shop.name}</Text>
@@ -50,7 +53,10 @@ class CoffeeList extends Component {
     );
   }
   render() {
-    let ListItems = coffeeshops.map(shop => this.renderItem(shop));
+    let ListItems;
+    if (this.props.coffeeShops) {
+      ListItems = this.props.coffeeShops.map(shop => this.renderItem(shop));
+    }
     return (
       <Content>
         <List>{ListItems}</List>
@@ -59,4 +65,9 @@ class CoffeeList extends Component {
   }
 }
 
-export default CoffeeList;
+const mapStateToProps = state => ({
+  coffeeShops: state.coffee.coffeeshops,
+  loading: state.coffee.loading
+});
+
+export default connect(mapStateToProps)(CoffeeList);
